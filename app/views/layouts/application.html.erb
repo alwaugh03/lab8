@@ -12,39 +12,55 @@
 
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+    <%= javascript_include_tag "application",
+                               "data-turbo-track": "reload",
+                               type: "module" %>
   </head>
 
   <body>
-    <% if user_signed_in? %>
-      Logged in as <%= current_user.email %>
-      <%= button_to "Sign Out", destroy_user_session_path, method: :delete, class: "btn btn-outline-danger btn-sm" %>
-    <% else %>
-      <%= link_to "Sign In", new_user_session_path, class: "btn btn-outline-primary btn-sm" %>
-      <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-primary btn-sm" %>
-    <% end %>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container">
-    <%= render "layouts/flash" %>
-    <a class="navbar-brand" href="/">Vet Clinic</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+      <div class="container">
+        <%= link_to "Vet Clinic", root_path, class: "navbar-brand" %>
 
-    <div class="navbar-nav">
-      <%= link_to "Owners", owners_path, class: "nav-link" %>
-      <%= link_to "Pets", pets_path, class: "nav-link" %>
-      <%= link_to "Vets", vets_path, class: "nav-link" %>
-      <%= link_to "Appointments", appointments_path, class: "nav-link" %>
+        <div class="navbar-nav me-auto">
+          <%= link_to "Owners", owners_path, class: "nav-link" %>
+          <%= link_to "Pets", pets_path, class: "nav-link" %>
+          <%= link_to "Vets", vets_path, class: "nav-link" %>
+          <%= link_to "Appointments", appointments_path, class: "nav-link" %>
+          <%= link_to "Treatments", treatments_path, class: "nav-link" %>
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+          <% if user_signed_in? %>
+            <span class="text-white me-2">
+              <%= current_user.first_name %> <%= current_user.last_name %>
+            </span>
+
+            <%= button_to "Sign Out",
+                          destroy_user_session_path,
+                          method: :delete,
+                          class: "btn btn-outline-light btn-sm" %>
+          <% else %>
+            <%= link_to "Sign In",
+                        new_user_session_path,
+                        class: "btn btn-outline-light btn-sm" %>
+
+            <%= link_to "Sign Up",
+                        new_user_registration_path,
+                        class: "btn btn-light btn-sm" %>
+          <% end %>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <%= render "layouts/flash" %>
+      <%= yield %>
     </div>
-  </div>
-</nav>
-    <%= yield %>
   </body>
 </html>

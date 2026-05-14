@@ -1,3 +1,32 @@
+# Remove existing users to avoid duplicate email errors when running db:seed multiple times
+User.destroy_all
+
+User.create!(
+  first_name: "Admin",
+  last_name: "User",
+  email: "admin@vetclinic.com",
+  password: "password123",
+  password_confirmation: "password123",
+  role: :admin
+)
+
+User.create!(
+  first_name: "Victor",
+  last_name: "Vet",
+  email: "vet@vetclinic.com",
+  password: "password123",
+  password_confirmation: "password123",
+  role: :vet
+)
+
+User.create!(
+  first_name: "Olivia",
+  last_name: "Owner",
+  email: "owner@vetclinic.com",
+  password: "password123",
+  password_confirmation: "password123",
+  role: :owner
+)
 
 owner1 = Owner.create!(
   first_name: "Juan", last_name: "Perez",
